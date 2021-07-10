@@ -51,5 +51,5 @@ void printMelodyInfo(MelodyInfo melodyInfo) {
   Serial.print(F("BPM: "));
   Serial.println(melodyInfo.bpm);
   Serial.print(F("Tempo: ?/"));
-  Serial.println((int) pow(2, melodyInfo.beatUnit));
+  Serial.println(pow(2, melodyInfo.beatUnit));
 }

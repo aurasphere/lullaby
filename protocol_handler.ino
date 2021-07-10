@@ -9,7 +9,7 @@
 //        3 = */8 (eight note)
 // Each note is represented by 3 HEX char with the following content:
 // 3 bit <- note (0 to 7, 0 is for a rest)
-// 2 bit <- duration (0 to 3, see below)
+// 2 bit <- duration (0 to 4, see below)
 // 3 bit <- octave (1 to 7)
 // 1 bit <- extended (true or false)
 // 1 bit <- altered (true or false)
@@ -77,18 +77,18 @@ void serializeMelody(MelodyInfo melodyInfo, Note* melodyBuffer, char* serialized
     memcpy(serializedMelody + 3 * (i + 1), buffer, sizeof(char) * 3);
   }
   // Adds a null terminator to end the string
-  serializedMelody[3 * melodyInfo.length] = NULL;
+  serializedMelody[3 * (melodyInfo.length + 1)] = NULL;
 }
 
 void serializeNote(Note note, char* serializedNote) {
   uint8_t firstByteValue = (note.pitch << 5) + (note.duration << 3) + note.octave;
   uint8_t secondByteValue = (note.extended ? 1 << 3 : 0) + (note.altered ? 1 << 2 : 0);
-  sprintf(serializedNote, "%x%x", firstByteValue, secondByteValue);
+  sprintf(serializedNote, "%02x%x", firstByteValue, secondByteValue);
   serializedNote[3] = NULL;
 }
 
 void serializeHeader(MelodyInfo melodyInfo, char* serializedHeader) {
-  sprintf(serializedHeader, "%x%d", melodyInfo.bpm, melodyInfo.beatUnit);
+  sprintf(serializedHeader, "%02x%d", melodyInfo.bpm, melodyInfo.beatUnit);
 }
 
 // Util functions (deprecated)

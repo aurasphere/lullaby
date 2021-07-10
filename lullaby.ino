@@ -8,6 +8,9 @@
 // See protocol_handler for info on how this is calculated
 #define MESSAGE_BUFFER_SIZE 1 + SERIALIZED_HEADER_LENGTH + (MAX_MELODY_LENGTH * SERIALIZED_NOTE_LENGTH)
 
+#define PRINT_MENU false
+#define BAUD_RATE 9600
+
 // Button
 #define BUTTON 6
 #define BUZZER 7
@@ -39,8 +42,11 @@ struct MelodyInfo {
 
 void setup() {
   // Open serial for communication.
-  Serial.begin(9600);
-  printMenu();
+  Serial.begin(BAUD_RATE);
+
+  if (PRINT_MENU) {
+    printMenu();
+  }
 
   // Inizializes LEDS (if available)
   for (uint8_t i = WHITE; i <= RED; i++) {
@@ -53,7 +59,6 @@ void setup() {
 
 void playMelody(Note* melody, MelodyInfo melodyInfo) {
   uint16_t beatMillis = 60000 / melodyInfo.bpm;
-  printMelodyInfo(melodyInfo);
   for (uint8_t i = 0; i < melodyInfo.length; i++) {
     Note note = melody[i];
     uint16_t duration = beatMillis * pow(2, note.duration - melodyInfo.beatUnit) * (note.extended ? 1.5 : 1);
@@ -69,7 +74,7 @@ void playMelody(Note* melody, MelodyInfo melodyInfo) {
 
     // Plays a note.
     tone(BUZZER, pitch, duration);
-    
+
     randomizeLeds();
 
     // Plays the note for the specified duration.

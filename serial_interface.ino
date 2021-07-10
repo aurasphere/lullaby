@@ -31,7 +31,9 @@ void handleMenuInput() {
       printEepromContent();
       break;
   }
-  printMenu();
+  if (PRINT_MENU) {
+    printMenu();
+  }
 }
 
 void exportMelody() {
