@@ -42,4 +42,15 @@ Both the header and the notes have a fixed length of 3 characters, so the length
 
 ### Header
 
-The melody header contains the BPM and beat unit (e.g. the denominator of the time signature). The BPM is converted to 2 hexadecimal characters (using padding if needed) and then prepended to the beat unit, which is a digit between 1-3
+The melody header contains the BPM and beat unit (e.g. the denominator of the time signature). The BPM is converted to 2 hexadecimal characters (using padding if needed) and then prepended to the beat unit, which is a digit between 1-3:
+	  
+|     Time Signature     | Beat Unit |
+|:----------------------:|:---------:|
+| */2 (2/2, 3/2, 4/2...) |     1     |
+| */4 (2/4, 4/4, 5/4...) |     2     |
+| */8 (3/8, 6/8, 9/8...) |     3     |
+	    
+For example, given a melody with a time signature of 4/4 and 120 BPM, the resulting header will be 782.
+	    
+### Notes
+	    
