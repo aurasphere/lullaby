@@ -24,13 +24,13 @@ Open source smart music box based on Arduino. It can store a melody inside the E
 
 ## Commands
 
-Communication is performed through serial port. Each command starts with an ASCII lowercase character. Some commands also require a melody argument (the encoding is described in the next paragraph). The available commands are the following:
+Communication is performed through serial port. Each command starts with an ASCII lowercase character and ends with a newline (```\n```). Some commands also require a melody argument (the encoding is described in the next paragraph). The available commands are the following:
 
- - p, plays the melody currently stored in EEPROM
- - s<melody>, saves the given melody into EEPROM
- - d, prints the details of the melody stored
- - e, exports the given melody in the Lullaby protocol
- - n<melody>, plays the given melody
+ - **p**, plays the melody currently stored in EEPROM
+ - **s(melody)**, saves the given melody into EEPROM
+ - **d**, prints the details of the melody stored
+ - **e**, exports the given melody in the Lullaby protocol
+ - **n(melody)**, plays the given melody
  
 ## Melody Protocol
 
@@ -53,4 +53,28 @@ The melody header contains the BPM and beat unit (e.g. the denominator of the ti
 For example, given a melody with a time signature of 4/4 and 120 BPM, the resulting header will be 782.
 	    
 ### Notes
-	    
+
+Each note is represented by 3 hexadecimal characters (1 + 1/2 bytes) containing the following informations (in order):
+ - **pitch**, an integer ranging from 0 to 7 (3 bits) with 1 being C (Do) and 7 being B (Si). 0 is a rest
+ - **duration**, an integer ranging from 0 to 4, (2 bits) indicating the note duration, according to the table below
+ - **octave**, an integer ranging from 1 to 7 (3 bits)
+ - **extended**, 0 (false) or 1 (true) (1 bit). Whether the note is dotted or not
+ - **altered**, 0 (false) or 1 (true) (1 bit). Whether the note is altered (#) 
+
+|          Note          |  Duration |
+|:----------------------:|:---------:|
+/ Whole   𝅝	          /     0     /
+| Half 	  𝅗𝅥 	          |     1     |
+| Quarter ♩              |     2     |
+| Eight   ♪              |     3     |
+
+The pitch, duration and octave are stored into the first byte (2 hex chars) meanwhile the extended and altered flags are stored in the last half byte (1 hex char). All the stuffing is big endian.
+
+For example, we can calculate the value of the note G#5𝅗𝅥 as following:
+
+    (5 << 5) + (1 << 3) + 5 =  173 = 0xAD // pitch + duration + octave, all compressed in 1 byte
+    (0 << 3) + (1 << 2) = 4 = 0x4 // extended + altered, all compressed in 1/2 byte
+    
+And the final result is AD4. So, taking the header we can attach the header we build before to have a complete melody, made up of only one note: ```782AD4```. 
+
+To avoid unexpected behavior, Lullaby allows melodies up to 64 notes by default, but this can be easily configured by changing the ```MAX_MELODY_LENGTH``` property according to your device memory (both EEPROM and SRAM). 
