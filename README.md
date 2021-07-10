@@ -6,7 +6,7 @@ Open source smart music box based on Arduino. It can store a melody inside the E
  - supports 4 types of notes (whole, half, quarter, eighth) with relative rests, across 7 octaves. Notes can also be altered and dotted
  - customizable BPM
  - supports any time signature having a denominator of 2, 4 or 8 (e.g. 4/4, 2/2, 6/8...)
- - dedicated (mobile app)[https://github.com/aurasphere/lullaby-mobile]
+ - dedicated [mobile app](https://github.com/aurasphere/lullaby-mobile)
  - real-time playing (can be used as a piano or while composing the melody to store)
  - melody export (useful to save multiple melodies and restore them anytime)
  - optional led randomization on each note played
@@ -38,7 +38,9 @@ Lullaby uses a custom protocol based on hexadecimal bit stuffing. Each melody is
 
     <header><note><note><note>...
 	
-Both the header and the notes have a fixed length of 3 characters, so the length of each encoded melody is guaranteed to be a multiple of 3. The length of any melody is equal to (encodedLength - 3) / 3.
+Both the header and the notes have a fixed length of 3 characters, so the length of each encoded melody is guaranteed to be a multiple of 3. The length of any melody is equal to 
+
+    (encodedLength - 3) / 3.
 
 ### Header
 
@@ -63,7 +65,7 @@ Each note is represented by 3 hexadecimal characters (1 + 1/2 bytes) containing 
 
 |          Note          |  Duration |
 |:----------------------:|:---------:|
-/ Whole   𝅝	          /     0     /
+| Whole   𝅝	          |     0     |
 | Half 	  𝅗𝅥 	          |     1     |
 | Quarter ♩              |     2     |
 | Eight   ♪              |     3     |
@@ -75,6 +77,6 @@ For example, we can calculate the value of the note G#5𝅗𝅥 as following:
     (5 << 5) + (1 << 3) + 5 =  173 = 0xAD // pitch + duration + octave, all compressed in 1 byte
     (0 << 3) + (1 << 2) = 4 = 0x4 // extended + altered, all compressed in 1/2 byte
     
-And the final result is AD4. So, taking the header we can attach the header we build before to have a complete melody, made up of only one note: ```782AD4```. 
+And the final result is ```AD4```. So, taking the header we can attach the header we build before to have a complete melody, made up of only one note: ```782AD4```. 
 
 To avoid unexpected behavior, Lullaby allows melodies up to 64 notes by default, but this can be easily configured by changing the ```MAX_MELODY_LENGTH``` property according to your device memory (both EEPROM and SRAM). 
