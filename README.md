@@ -14,9 +14,10 @@ Open source smart music box based on Arduino. It can store a melody inside the E
 ## Components
  - HC-05 Bluetooth Module
  - Active Buzzer
- - Arduino Nano
+ - Arduino Nano (or any other compatible board)
  - Button
- - Resistance /TODO
+ - Resistance (1 needed, up to 5 more optional)
+ - Leds (optional, up to 5) 
  
 ## Schematics
 
