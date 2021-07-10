@@ -1,15 +1,15 @@
 // Each melody is serialized in the following format:
-// 3 chars (2 hex + 1 dec) = MelodyInfo (or header), containing bpm and beatUnit
+// 3 chars (2 hex + 1|2|3) = MelodyInfo (or header), containing bpm and beatUnit
 // 3 chars per note (hex)
 // An header is represented by 3 characters:
 // 2 HEX <- bpm
-// 1 DEC <- the beat unit
+// 1|2|3 <- the beat unit
 //        1 = */2 (half note)
 //        2 = */4 (quarter note)
 //        3 = */8 (eight note)
 // Each note is represented by 3 HEX char with the following content:
-// 3 bit <- note (1 to 7 or 0 for a rest)
-// 2 bit <- duration (1, 2 or 3, see below)
+// 3 bit <- note (0 to 7, 0 is for a rest)
+// 2 bit <- duration (0 to 4, see below)
 // 3 bit <- octave (1 to 7)
 // 1 bit <- extended (true or false)
 // 1 bit <- altered (true or false)
