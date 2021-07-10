@@ -14,9 +14,10 @@ Open source smart music box based on Arduino. It can store a melody inside the E
 ## Components
  - HC-05 Bluetooth Module
  - Active Buzzer
- - Arduino Nano
+ - Arduino Nano (or any other compatible board)
  - Button
- - Resistance /TODO
+ - Resistance (1 needed, up to 5 more optional)
+ - Leds (optional, up to 5) 
  
 ## Schematics
 
@@ -52,7 +53,7 @@ The melody header contains the BPM and beat unit (e.g. the denominator of the ti
 | */4 (2/4, 4/4, 5/4...) |     2     |
 | */8 (3/8, 6/8, 9/8...) |     3     |
 	    
-For example, given a melody with a time signature of 4/4 and 120 BPM, the resulting header will be 782.
+For example, given a melody with a time signature of 4/4 and 120 BPM, the resulting header will be ```782```.
 	    
 ### Notes
 
