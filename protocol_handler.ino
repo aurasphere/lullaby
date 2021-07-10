@@ -9,7 +9,7 @@
 //        3 = */8 (eight note)
 // Each note is represented by 3 HEX char with the following content:
 // 3 bit <- note (0 to 7, 0 is for a rest)
-// 2 bit <- duration (0 to 4, see below)
+// 2 bit <- duration (0 to 3, see below)
 // 3 bit <- octave (1 to 7)
 // 1 bit <- extended (true or false)
 // 1 bit <- altered (true or false)
